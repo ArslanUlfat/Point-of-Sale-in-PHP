@@ -1,0 +1,29 @@
+<?php
+include 'config.php';
+session_start();
+if(!isset($_SESSION['username'])){
+  header('location:http://localhost/BIT/login.html');
+  $uname=$_SESSION['username'];
+}
+$uname=$_SESSION['username'];
+    if(isset($_REQUEST['Add_Pro'])){
+$var_id=$_REQUEST['pro_id'];
+$var_purchase_id=$_REQUEST['purchase_id'];
+$var_bar=$_REQUEST['barcode'];
+$var_name=$_REQUEST['brand_name'];
+$var_category=$_REQUEST['selectCategory'];
+$var_qty=$_REQUEST['qty'];
+$var_cost=$_REQUEST['cost_price'];
+$var_cost_item=$_REQUEST['cost_price_item'];
+$var_supplier=$_REQUEST['selectSupplier'];
+$var_sale=$_REQUEST['sale_price'];
+$var_sale_price=$_REQUEST['slae_price_item'];
+$var_profit=$var_sale-$var_cost;
+$var_stock_level=$_REQUEST['mini_stock_level'];
+$var_status=$_REQUEST['pro_status'];
+$sql_add="INSERT INTO productlist (	purchase_id,product_id,barcode,p_name,p_category,p_supplier,quantity,cost,cost_item,sale,sale_item,profit_rupees,min_stock_level,status,purchased_by) VALUES (:purchase_id,:product_id,:barcode,:p_name,:p_category,:p_supplier,:quantity,:cost,:cost_item,:sale,:sale_item,:profit_rupees,:min_stock_level,:status,:purchased_by)";
+$result_add=$conn->prepare($sql_add);
+$result_add->execute(array(':purchase_id'=>$var_purchase_id,':product_id'=>$var_id,':barcode'=>$var_bar,':p_name'=>$var_name,':p_category'=>$var_category,':p_supplier'=>$var_supplier,':quantity'=>$var_qty,':cost'=>$var_cost,':cost_item'=>$var_cost_item,':sale'=>$var_sale,':sale_item'=>$var_sale_price,':profit_rupees'=>$var_profit,':min_stock_level'=>$var_stock_level,':status'=>$var_status,':purchased_by'=>$uname));
+header('location:http://localhost/BIT/purchase_product.php');
+}
+?>
